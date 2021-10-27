@@ -10,5 +10,17 @@
   "license": "MIT",
   "dependencies": {
     "netlify-lambda": "^2.0.0"
-  }
+  },
+  "description": "Created for netlify",
+  "main": "index.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unoctanium/netlify-cs-payment.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/unoctanium/netlify-cs-payment/issues"
+  },
+  "homepage": "https://github.com/unoctanium/netlify-cs-payment#readme"
 }
