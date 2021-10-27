@@ -1,2 +1,2 @@
 # Lambdatest
-Created with CodeSandbox
+Created for netlify
