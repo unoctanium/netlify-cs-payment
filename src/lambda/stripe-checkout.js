@@ -1,6 +1,7 @@
 
 import { parse } from 'querystring'
 
+const { URL } = process.env;
 const { STRIPE_SECRET } = process.env;
 //PP_CLIENT_ID
 //PP_CLIENT_SECRET
@@ -44,7 +45,9 @@ export async function handler(event, context) {
     // set some parameters depending on purcase mode
     const purchaseMode = (body.mode == "Monthly Subscription") ? "subscription" : "payment";
     const purchasePrice = (purchaseMode == "payment") ? body["stripe-single-price-id"] : body["stripe-subscription-price-id"];
-
+    const successUrl = body["success-url"].startsWith("http") ? body["success-url"] : URL + body["success-url"];
+    const cancelUrl = body["cancel-url"].startsWith("http") ? body["cancel-url"] : URL + body["cancel-url"];
+    
     // create stripe checkout session
     const session = await stripe.checkout.sessions.create({
         line_items: [
@@ -57,8 +60,8 @@ export async function handler(event, context) {
         'card',
         ],
         mode: purchaseMode,
-        success_url: body['success-url'],
-        cancel_url: body['cancel-url'],
+        success_url: successUrl,
+        cancel_url: cancelUrl,
         customer_email: body.email,
         metadata: {
             'firstname': body.firstname, 
