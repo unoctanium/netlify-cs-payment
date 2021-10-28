@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Test stripe</title>
+    <script src="https://js.stripe.com/v3/"></script>
+  </head>
+  <body>
+    <section>
+      <form action="/.netlify/functions/stripe-checkout" method="POST">
+
+        <label for="quantity">Quantity:</label><br>
+        <input type="text" id="quantity" name="quantity"><br>
+
+        <input type="radio" id="single" name="mode" value="Single Donation">
+        <label for="single">Single Donation</label><br>
+        <input type="radio" id="subscription" name="mode" value="Monthly Subscription">
+        <label for="subscription">Monthly Subscription</label><br>
+
+        <input type="radio" id="stripe" name="payment" value="Credit Card">
+        <label for="stripe">Credit Card</label><br>
+        <input type="radio" id="paypal" name="payment" value="PayPal">
+        <label for="paypal">PayPal</label><br>
+
+        <label for="firstname">Your first name</label><br>
+        <input type="text" id="firstname" name="firstname"><br>
+
+        <label for="lastname">Your last name</label><br>
+        <input type="text" id="lastname" name="lastname"><br>
+
+        <label for="email">Your Email</label><br>
+        <input type="text" id="email" name="email"><br>
+
+        <input type="hidden" id="stripe-single-price-id" name="stripe-single-price-id" value="price_1JmdeUKyw0gJ2pnAKI93wiPr">
+        <input type="hidden" id="stripe-subscription-price-id" name="stripe-subscription-price-id" value="price_1Jmdw7Kyw0gJ2pnARr8PWm04">
+        <input type="hidden" id="paypal-price" name="paypal-price" value="23">
+        <input type="hidden" id="paypal-product" name="paypal-product" value="tree donation">
+        <input type="hidden" id="paypal-subscription-id" name="paypal-subscription-id" value="P-6VY34089G9912315XMFYZMII">
+        <input type="hidden" id="success-url" name="success-url" value="http://localhost:8888/public/success">
+        <input type="hidden" id="cancel-url" name="cancel-url" value="http://localhost:8888/public/cancel">
+        
+        <p></p>
+        <button type="submit" id="checkout-button">Checkout</button>
+      </form>
+    </section>
+  </body>
+</html>

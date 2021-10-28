@@ -12,6 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "netlify-lambda": "^2.0.0",
+    "querystring": "^0.2.1",
     "stripe": "^8.184.0"
   },
   "description": "Created for netlify",
