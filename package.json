@@ -5,15 +5,17 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "netlify-lambda serve src/lambda",
     "start:lambda": "netlify-lambda serve src/lambda",
-    "build:lambda": "netlify-lambda build src/lambda"
+    "build:lambda": "netlify-lambda build src/lambda",
+    "netlify": "netlify",
+    "dev": "netlify dev"
   },
   "license": "MIT",
   "dependencies": {
-    "netlify-lambda": "^2.0.0"
+    "netlify-lambda": "^2.0.0",
+    "stripe": "^8.184.0"
   },
   "description": "Created for netlify",
   "main": "index.js",
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/unoctanium/netlify-cs-payment.git"
@@ -22,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/unoctanium/netlify-cs-payment/issues"
   },
-  "homepage": "https://github.com/unoctanium/netlify-cs-payment#readme"
+  "homepage": "https://github.com/unoctanium/netlify-cs-payment#readme",
+  "devDependencies": {
+    "netlify-cli": "^6.14.5"
+  }
 }

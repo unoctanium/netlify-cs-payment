@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Buy cool new product</title>
+    <!--<link rel="stylesheet" href="style.css">-->
+    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+  </head>
+  <body>
+    <section>
+      <form action="/stripe-checkout" method="POST">
+        <label for="product">Stripe Price ID:</label><br>
+        <input type="text" id="product" name="product"><br>
+
+        <input type="radio" id="single" name="mode" value="payment">
+        <label for="single">Single purchase</label><br>
+        <input type="radio" id="subscription" name="mode" value="subscription">
+        <label for="subscription">Subscription</label><br>
+
+        <label for="quantity">Quantity:</label><br>
+        <input type="text" id="quantity" name="quantity"><br>
+
+        <label for="quantity">Success url:</label><br>
+        <input type="text" id="success" name="success"><br>
+
+        <label for="quantity">Cancel url:</label><br>
+        <input type="text" id="cancel" name="cancel"><br>
+        <p></p>
+        <button type="submit" id="checkout-button">Checkout</button>
+      </form>
+    </section>
+  </body>
+</html>
