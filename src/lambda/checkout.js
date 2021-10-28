@@ -1,14 +1,20 @@
 
 import { parse } from 'querystring'
 
-const { URL } = process.env;
-const { STRIPE_SECRET } = process.env;
-//PP_CLIENT_ID
-//PP_CLIENT_SECRET
+// Require stripe checkout
+const stripe = require('./stripe/checkout');
 
-// Configure stripe
-const stripe = require('stripe')(STRIPE_SECRET);
+// test for payment method
+function getPaymentProvider (query) {
+    if (query == "Credit Card") {
+        return "stripe";
+    }
+    if (query == "PayPal") {
+        return "paypal";
+    }
+}
 
+// export API call
 export async function handler(event, context) {
 
     // bail if wrong http Method
@@ -42,45 +48,22 @@ export async function handler(event, context) {
         } 
     }
     
-    // set some parameters depending on purcase mode
-    const purchaseMode = (body.mode == "Monthly Subscription") ? "subscription" : "payment";
-    const purchasePrice = (purchaseMode == "payment") ? body["stripe-single-price-id"] : body["stripe-subscription-price-id"];
-    const successUrl = body["success-url"].startsWith("http") ? body["success-url"] : URL + body["success-url"];
-    const cancelUrl = body["cancel-url"].startsWith("http") ? body["cancel-url"] : URL + body["cancel-url"];
-    
-    // create stripe checkout session
-    const session = await stripe.checkout.sessions.create({
-        line_items: [
-        {
-            price: purchasePrice,
-            quantity: body.quantity,
-        },
-        ],
-        payment_method_types: [
-        'card',
-        ],
-        mode: purchaseMode,
-        success_url: successUrl,
-        cancel_url: cancelUrl,
-        customer_email: body.email,
-        metadata: {
-            'firstname': body.firstname, 
-            'lastname': body.lastname,
-            'email': body.email
-        },
-        //submit_type: 'donate'
-    });
+    // check for payment method and call correct checkout
+    if (getPaymentProvider(body.payment) == "stripe") {
+        return await stripe.checkout(body);
+        //return (ret);
+    }
+    if (getPaymentProvider(body.payment) == "paypal") {
+        return await paypal.checkout(body);
+    }
 
-    // redirect to success-url or cancel-url
+    // Payment provider unsupportes
     return {
-      statusCode: 303,
-      //body: {},
-      headers: {
-          location: session.url
-      }
-    };
-}
+        statusCode: 400,
+        body: 'Unsupported Payment Provider',
+      };    
 
+}
 
 /*
 event = 
