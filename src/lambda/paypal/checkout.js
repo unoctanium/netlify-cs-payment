@@ -46,7 +46,7 @@ var paypal = require('@paypal/checkout-server-sdk');
  * Set environment var in apps config GUI to either Sandbox or Live
  *
  */
- function environment() {
+ const environment = () => {
     let clientId = process.env.PP_CLIENT_ID || 'PP_CLIENT_ID';
     let clientSecret = process.env.PP_CLIENT_SECRET || 'PP__CLIENT_SECRET';
     if (process.env.PP_SANDBOX_LIVE == "Live") {
@@ -58,7 +58,6 @@ var paypal = require('@paypal/checkout-server-sdk');
         return new paypal.core.SandboxEnvironment(
             clientId, clientSecret
         );
-
     }
 }
 
@@ -69,8 +68,10 @@ var paypal = require('@paypal/checkout-server-sdk');
  * credentials context. Use this instance to invoke PayPal APIs, provided the
  * credentials have access.
  */
-function client() {
-    return new paypal.core.PayPalHttpClient(environment());
+const ppclient = () => {
+    let e = environment();
+    console.log(e);
+    return new paypal.core.PayPalHttpClient(e);
 }
 
 
@@ -132,7 +133,7 @@ const handlePaypalSinglePurchase = async(body) => {
         purchase_units: [
             {
                 reference_id: 'default',
-                description: req.body["paypal-product"],
+                description: body["paypal-product"],
                 amount: {
                     currency_code: 'EUR',
                     value: body.quantity * body["paypal-price"],
@@ -144,8 +145,24 @@ const handlePaypalSinglePurchase = async(body) => {
     // Call PayPal checkoput API to create checkout and redirect client to PayPals approval webpage
     // After client approves checkout, PayPal will send him to our capture function (API call to captureUrl un this Site) to collect payment
     let createOrder = async function () {
-        let response = await client().execute(request);
-        //console.log(response.result);
+
+console.log("///////");
+        console.log(request);
+console.log("///////");
+
+console.log("joHaha");
+console.log("jojo");
+
+        let client = ppclient();
+console.log("jo2");
+        //console.log(client);
+console.log("jo3");
+
+        let response = await client.execute(request);
+        
+        console.log("///////RESPONSE");
+        console.log(response.result);
+        console.log("///////RESPONSE");
         
         // call approval webpage
         for (let i = 0; i < response.result.links.length; i++) {

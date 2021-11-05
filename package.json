@@ -7,12 +7,12 @@
     "start:lambda": "netlify-lambda serve src/lambda",
     "build:lambda": "netlify-lambda build src/lambda",
     "netlify": "netlify",
-    "dev": "netlify dev"
+    "dev": "NODE_OPTIONS=--trace-deprecation netlify dev"
   },
   "license": "MIT",
   "dependencies": {
     "@paypal/checkout-server-sdk": "^1.0.3",
-    "netlify-lambda": "^2.0.0",
+    "http": "*",
     "querystring": "^0.2.1",
     "stripe": "^8.184.0"
   },
