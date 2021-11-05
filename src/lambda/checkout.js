@@ -1,10 +1,28 @@
 
+/**
+ * Require querystring to parse body parameters in API call
+ */
 import { parse } from 'querystring'
 
-// Require stripe checkout
+
+/**
+ * Require our stripe submodule to handle stripe checkout requests
+ */
 const stripe = require('./stripe/checkout');
 
-// test for payment method
+
+/**
+ * Require our paypal submodule to handle paypal checkout requests
+ */
+const paypal = require('./paypal/checkout');
+
+
+/**
+ * getPaymentProvider
+ * examine which payment provider was requetes in API call
+ * @param String query: "Credit Card" || "PayPal" 
+ * @returns stripe || paypal
+ */
 function getPaymentProvider (query) {
     if (query == "Credit Card") {
         return "stripe";
@@ -14,7 +32,12 @@ function getPaymentProvider (query) {
     }
 }
 
-// export API call
+
+/**
+ * 
+ * Handle API Request
+ * 
+ */
 export async function handler(event, context) {
 
     // bail if wrong http Method
@@ -65,7 +88,8 @@ export async function handler(event, context) {
 
 }
 
-/*
+
+/* Doc of event structure
 event = 
 {
     "path": "Path parameter (original URL encoding)",

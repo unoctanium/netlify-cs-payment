@@ -1,20 +1,40 @@
 // stripe/chekout.js
 // ========
+// Used app GUI environment vaeriables:
+// STRIPE_SECRET: The active stripe secret
+// URL (readonly): The active site base URL, i.e. https://abc.com
 
-// get our base url from env
+
+/**
+ * Get base url from apps GUI environment
+ */
 const { URL } = process.env;
 
-// Get stripe secret fom env
-const { STRIPE_SECRET } = process.env;
 
-// Require stripe
+/**
+ * Get stripe secret from apps GUI environment
+ */
+const STRIPE_SECRET = process.env.STRIPE_SECRET || 'STRIPE_SECRET';
+
+
+/**
+ * Require stripe module
+ */
 const stripe = require('stripe')(STRIPE_SECRET);
 
+
+/**
+ * 
+ * Handle stripe checkout Request (called by parent API handler)
+ * 
+ */
 const checkout = async(body) => {
 
-    // set some parameters depending on purcase mode
+    // set some parameters depending on purchase mode provided
     const purchaseMode = (body.mode == "Monthly Subscription") ? "subscription" : "payment";
     const purchasePrice = (purchaseMode == "payment") ? body["stripe-single-price-id"] : body["stripe-subscription-price-id"];
+    
+    // urls in body can be local or remote (starting with http). Local ones will be completed with this sites base url
     const successUrl = body["success-url"].startsWith("http") ? body["success-url"] : URL + body["success-url"];
     const cancelUrl = body["cancel-url"].startsWith("http") ? body["cancel-url"] : URL + body["cancel-url"];
 
@@ -51,8 +71,10 @@ const checkout = async(body) => {
     };
 }
 
-// export functions
+
+/**
+ * Export functions
+ */
 module.exports = {
     checkout: checkout
 };
-
